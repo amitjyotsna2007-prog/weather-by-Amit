@@ -1,0 +1,266 @@
+/* ==========================================================================
+   1. RESET & VARIABLES
+   ========================================================================== */
+:root {
+    --bg-gradient: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+    --card-bg: rgba(255, 255, 255, 0.2);
+    --card-border: rgba(255, 255, 255, 0.3);
+    --text-main: #333333;
+    --text-muted: #555555;
+    --accent-color: #f7b733;
+    --blur-strength: 15px;
+    --transition-speed: 0.3s;
+    
+    --good-color: #66bb6a;
+    --mod-color: #ffee58;
+    --warn-color: #ffa726;
+
+    /* Landscape Light Theme */
+    --hill1-color: #214f34;
+    --hill2-color: #2c6b45;
+    --tree-foliage: #2fa44f;
+    --tree-trunk: #593b18;
+    --grass-grad-top: #2e8b57;
+    --grass-grad-bottom: #22663d;
+    --traveler-coat: #2c3e50;
+    --traveler-legs: #222222;
+}
+
+[data-theme="dark"] {
+    --bg-gradient: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --card-border: rgba(255, 255, 255, 0.1);
+    --text-main: #f3f4f6;
+    --text-muted: #d1d5db;
+
+    /* Landscape Dark Theme */
+    --hill1-color: #0d2417;
+    --hill2-color: #143521;
+    --tree-foliage: #1b5e20;
+    --tree-trunk: #3e2723;
+    --grass-grad-top: #1b5e20;
+    --grass-grad-bottom: #123e17;
+    --traveler-coat: #1a252f;
+    --traveler-legs: #000000;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg-gradient);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    transition: background var(--transition-speed), color var(--transition-speed);
+    overflow-x: hidden;
+}
+
+/* ==========================================================================
+   2. APP CONTAINER & GLASSMORPHISM
+   ========================================================================== */
+.app-container {
+    width: 100%;
+    max-width: 1200px;
+    background: var(--card-bg);
+    backdrop-filter: blur(var(--blur-strength));
+    -webkit-backdrop-filter: blur(var(--blur-strength));
+    border: 1px solid var(--card-border);
+    border-radius: 30px;
+    padding: 30px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    padding: 20px;
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+}
+[data-theme="dark"] .card { background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.05); }
+.card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); }
+
+/* Navigation Layouts */
+.search-header { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
+.search-bar-container { flex: 1; display: flex; align-items: center; background: rgba(255, 255, 255, 0.2); border: 1px solid var(--card-border); border-radius: 50px; padding: 10px 20px; gap: 10px; }
+[data-theme="dark"] .search-bar-container { background: rgba(0, 0, 0, 0.3); }
+.search-bar-container input { width: 100%; background: transparent; border: none; outline: none; font-size: 1rem; color: var(--text-main); }
+.search-bar-container input::placeholder { color: var(--text-muted); }
+
+.icon-btn { background: rgba(255, 255, 255, 0.2); border: 1px solid var(--card-border); color: var(--text-main); width: 45px; height: 45px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 1.1rem; transition: background var(--transition-speed), transform 0.1s; }
+[data-theme="dark"] .icon-btn { background: rgba(0, 0, 0, 0.3); }
+.icon-btn:hover { background: rgba(255, 255, 255, 0.3); transform: scale(1.05); }
+
+/* Dashboard Grids */
+.weather-dashboard { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+.main-weather { display: flex; flex-direction: column; justify-content: space-between; min-height: 220px; }
+.location-date h1 { font-size: 2.2rem; font-weight: 600; }
+.location-date p { color: var(--text-muted); font-size: 0.95rem; }
+.weather-display { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; }
+.weather-status { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+#weather-icon-container { position: relative; width: 90px; height: 90px; display: flex; justify-content: center; align-items: center; }
+#weather-desc { font-size: 1.1rem; font-weight: 500; text-transform: capitalize; }
+.temp-container { font-size: 4.5rem; font-weight: 300; display: flex; }
+.temp-container .unit { font-size: 2rem; margin-top: 15px; font-weight: 400; }
+
+.metrics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+.metric-card { display: flex; align-items: center; gap: 15px; }
+.metric-card i { font-size: 1.8rem; color: var(--accent-color); }
+.metric-info p { font-size: 0.85rem; color: var(--text-muted); }
+.metric-info h3 { font-size: 1.2rem; font-weight: 600; }
+
+/* Forecast Components */
+.hourly-forecast card, .daily-forecast card { font-size: 1.1rem; font-weight: 600; margin-bottom: 15px; }
+.hourly-scroll-container { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: thin; }
+.hourly-scroll-container::-webkit-scrollbar { height: 6px; }
+.hourly-scroll-container::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.3); border-radius: 10px; }
+.hourly-item { flex: 0 0 75px; display: flex; flex-direction: column; align-items: center; background: rgba(255, 255, 255, 0.05); padding: 12px 5px; border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.1); }
+.daily-list { display: flex; flex-direction: column; gap: 12px; }
+.daily-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+.daily-row .day { flex: 1; font-weight: 500; }
+.daily-status { flex: 1; display: flex; align-items: center; gap: 8px; }
+.daily-status img { width: 35px; height: 35px; }
+.daily-temp { flex: 1; text-align: right; font-weight: 500; }
+
+.grid-2x1 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.aqi-display { display: flex; align-items: baseline; gap: 15px; margin-top: 15px; }
+.aqi-display h2 { font-size: 2.8rem; font-weight: 300; }
+.badge { padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+.sun-times { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+.sun-times p { font-size: 0.95rem; display: flex; align-items: center; gap: 10px; }
+
+/* Micro Metric Icon Effects */
+.rain-fx { position: absolute; width: 2px; height: 12px; background: #76a0d0; opacity: 0.7; animation: dropFall 0.8s linear infinite; }
+@keyframes dropFall { 0% { transform: translateY(-10px); opacity: 0; } 50% { opacity: 0.7; } 100% { transform: translateY(70px); opacity: 0; } }
+.cloud-fx { position: absolute; background: rgba(255, 255, 255, 0.4); border-radius: 50%; filter: blur(1px); animation: drift 6s ease-in-out infinite alternate; }
+[data-theme="dark"] .cloud-fx { background: rgba(255, 255, 255, 0.15); }
+@keyframes drift { 0% { transform: translateX(-10px); } 100% { transform: translateX(15px); } }
+.sun-glow { position: absolute; width: 80px; height: 80px; background: radial-gradient(circle, rgba(255,222,67,0.4) 0%, transparent 70%); border-radius: 50%; animation: pulse-glow 3s ease-in-out infinite; }
+.sun-ray { position: absolute; width: 100px; height: 100px; border: 2px dashed rgba(255, 145, 0, 0.3); border-radius: 50%; animation: spin-rays 12s linear infinite; }
+@keyframes pulse-glow { 0%, 100% { transform: scale(0.9); opacity: 0.8; box-shadow: 0 0 20px #ff9100; } 50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 40px #ffde43; } }
+@keyframes spin-rays { 100% { transform: rotate(360deg); } }
+.mist-layer { position: absolute; width: 120px; height: 15px; background: linear-gradient(90deg, transparent, rgba(245, 245, 245, 0.4), transparent); border-radius: 30px; filter: blur(2px); animation: mist-wave 5s ease-in-out infinite alternate; }
+@keyframes mist-wave { 0% { transform: translateX(-30px) scaleY(0.9); opacity: 0.3; } 100% { transform: translateX(30px) scaleY(1.2); opacity: 0.6; } }
+
+/* ==========================================================================
+   3. BACKGROUND ENVIRONMENT LAYERS
+   ========================================================================== */
+#weather-scene { position: fixed; left: 0; top: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: 1; }
+#fog-layer { position: absolute; width: 100%; height: 100%; z-index: 2; }
+.fog { position: absolute; width: 180%; height: 180px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.10), transparent); filter: blur(20px); animation: fogMove 18s linear infinite; }
+@keyframes fogMove { 0% { transform: translateX(-60%); } 100% { transform: translateX(10%); } }
+
+/* ==========================================================================
+   4. LANDSCAPE LAYERS & TRAVELER
+   ========================================================================== */
+#landscape { position: absolute; left: 0; bottom: 0; width: 100%; height: 260px; overflow: hidden; z-index: 4; }
+.hill { position: absolute; bottom: -80px; background: var(--hill1-color); border-radius: 50%; transition: background var(--transition-speed); }
+.hill1 { width: 700px; height: 300px; left: -180px; }
+.hill2 { width: 600px; height: 260px; right: -150px; background: var(--hill2-color); }
+
+.tree { position: absolute; bottom: 110px; width: 14px; height: 70px; background: var(--tree-trunk); transition: background var(--transition-speed); }
+.tree::before { content: ""; position: absolute; left: -18px; top: -38px; width: 50px; height: 50px; background: var(--tree-foliage); border-radius: 50%; animation: treeMove 3s ease-in-out infinite; transition: background var(--transition-speed); }
+#tree1 { left: 12%; } #tree2 { left: 48%; } #tree3 { left: 82%; }
+
+#grass { position: absolute; bottom: 0; width: 100%; height: 110px; background: linear-gradient(var(--grass-grad-top), var(--grass-grad-bottom)); }
+@keyframes treeMove { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
+
+.splash { position: absolute; bottom: 100px; width: 8px; height: 2px; background: #cfefff; border-radius: 50%; animation: splash .7s linear infinite; }
+@keyframes splash { 0% { transform: scale(.2); opacity: 1; } 100% { transform: scale(3); opacity: 0; } }
+
+#traveler { position: absolute; left: 45%; bottom: 105px; width: 80px; height: 130px; animation: walk 4s ease-in-out infinite; z-index: 20; }
+.head { position: absolute; left: 30px; top: 35px; width: 18px; height: 18px; background: #ffd7b5; border-radius: 50%; }
+.body { position: absolute; left: 34px; top: 52px; width: 10px; height: 35px; background: var(--traveler-coat); border-radius: 5px; transition: background var(--transition-speed); }
+.leg { position: absolute; top: 85px; width: 3px; height: 28px; background: var(--traveler-legs); transform-origin: top; transition: background var(--transition-speed); }
+.left { left: 33px; animation: leftLeg .6s infinite alternate; }
+.right { left: 41px; animation: rightLeg .6s infinite alternate; }
+
+.umbrella { position: absolute; left: 8px; top: 0; width: 60px; height: 30px; background: #ff4d6d; border-radius: 60px 60px 0 0; transition: background 0.5s ease; }
+.umbrella::after { content: ""; position: absolute; left: 29px; top: 28px; width: 2px; height: 45px; background: #555; }
+
+@keyframes walk { 0%, 100% { transform: translateX(-10px); } 50% { transform: translateX(10px); } }
+@keyframes leftLeg { from { transform: rotate(20deg); } to { transform: rotate(-20deg); } }
+@keyframes rightLeg { from { transform: rotate(-20deg); } to { transform: rotate(20deg); } }
+
+/* ==========================================================================
+   5. CANVAS HARDWARE FX & PATCH-8 BETTER LIGHTNING
+   ========================================================================== */
+#fxCanvas { position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: 5; pointer-events: none; }
+.lightning-glow { position: fixed; left: 0; top: 0; width: 100%; height: 100%; background: white; opacity: 0; pointer-events: none; z-index: 6; }
+.flash { animation: flashFX 0.25s ease-out; }
+@keyframes flashFX { 0% { opacity: 0; } 20% { opacity: 0.95; } 35% { opacity: 0.15; } 50% { opacity: 0.85; } 100% { opacity: 0; } }
+
+/* ==========================================================================
+   6. SKY ENGINE & ASTRO SYSTEM
+   ========================================================================== */
+#sky-layer { position: absolute; width: 100%; height: 100%; overflow: hidden; z-index: 0; }
+#sun { position: absolute; width: 90px; height: 90px; border-radius: 50%; background: #FFD54F; box-shadow: 0 0 60px #FFD54F; top: 80px; right: 120px; animation: sunFloat 6s ease-in-out infinite; display: none; }
+#moon { position: absolute; width: 70px; height: 70px; border-radius: 50%; background: #ECEFF1; box-shadow: 0 0 40px white; top: 80px; right: 120px; display: none; }
+.star { position: absolute; width: 3px; height: 3px; background: white; border-radius: 50%; animation: twinkle 2s infinite; }
+@keyframes twinkle { 0%, 100% { opacity: .2; transform: scale(.8); } 50% { opacity: 1; transform: scale(1.5); } }
+@keyframes sunFloat { 0%, 100% { transform: translateY(-5px); } 50% { transform: translateY(5px); } }
+
+/* ==========================================================================
+   7. CLOUD ENGINE
+   ========================================================================== */
+#clouds { position: absolute; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: 1; }
+.cloud2 { position: absolute; background: rgba(255, 255, 255, .85); border-radius: 100px; filter: blur(1px); opacity: .8; animation: moveCloud linear infinite; }
+[data-theme="dark"] .cloud2 { background: rgba(255, 255, 255, .15); }
+.cloud2::before { content: ""; position: absolute; width: 70%; height: 90%; left: 8%; top: -45%; background: inherit; border-radius: 50%; }
+.cloud2::after { content: ""; position: absolute; width: 45%; height: 70%; right: 10%; top: -25%; background: inherit; border-radius: 50%; }
+@keyframes moveCloud { 0% { transform: translateX(-350px); } 100% { transform: translateX(calc(100vw + 350px)); } }
+
+/* ==========================================================================
+   8. ECOSYSTEM REVENUE LAYER STYLES (PATCH-7 & PATCH-8)
+   ========================================================================== */
+/* Snow Engine Layers */
+#snow-layer { position: absolute; width: 100%; height: 100%; pointer-events: none; z-index: 3; }
+.snow { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: white; animation: snowFall linear infinite; }
+@keyframes snowFall { 0% { transform: translateY(-20px); } 100% { transform: translateY(110vh) translateX(50px); } }
+
+/* Rainbow Engine Layer */
+#rainbow { position: absolute; left: 50%; bottom: 130px; transform: translateX(-50%); width: 500px; height: 250px; border-radius: 250px 250px 0 0; border: 14px solid transparent; border-top-color: rgba(255, 0, 0, 0.7); border-left-color: rgba(255, 165, 0, 0.6); border-right-color: rgba(148, 0, 211, 0.6); opacity: 0; transition: opacity 1.5s ease-in-out; z-index: 1; pointer-events: none; }
+
+/* Flying Birds Layer */
+#birds { position: absolute; width: 100%; height: 100%; pointer-events: none; z-index: 3; }
+.bird { position: absolute; left: -100px; width: 24px; height: 12px; border-top: 3px solid #333; border-radius: 50%; animation: birdFly 18s linear infinite; }
+[data-theme="dark"] .bird { border-top-color: #aaa; }
+@keyframes birdFly { 0% { transform: translateX(-100px); } 100% { transform: translateX(calc(100vw + 150px)); } }
+
+/* Wind Flying Leaves Layer */
+#leaves-layer { position: absolute; width: 100%; height: 100%; pointer-events: none; z-index: 3; }
+.leaf { position: absolute; top: -20px; width: 12px; height: 8px; background: #4caf50; border-radius: 50%; animation: leafFall 12s linear infinite; }
+@keyframes leafFall { 0% { transform: translateY(-20px) rotate(0deg); } 100% { transform: translateY(120vh) translateX(200px) rotate(720deg); } }
+
+/* PATCH-8: Water Ripple Engine Elements */
+#water { position: absolute; bottom: 0; width: 100%; height: 90px; background: linear-gradient(#4FC3F7, #0288D1); overflow: hidden; z-index: 21; }
+.wave { position: absolute; width: 220%; height: 120px; left: -60%; bottom: -30px; border-radius: 45%; background: rgba(255, 255, 255, .18); animation: waveMove 8s linear infinite; }
+.wave:nth-child(2) { animation-duration: 12s; opacity: .4; background: rgba(255, 255, 255, 0.25); }
+@keyframes waveMove { 0% { transform: translateX(0) rotate(0deg); } 100% { transform: translateX(120px) rotate(360deg); } }
+
+/* PATCH-8: Shooting Stars Structure */
+.shoot { position: fixed; width: 120px; height: 2px; background: white; box-shadow: 0 0 12px white; transform: rotate(-35deg); animation: shoot 1s linear forwards; pointer-events: none; z-index: 2; }
+@keyframes shoot { from { transform: translate(0, 0) rotate(-35deg); opacity: 1; } to { transform: translate(-500px, 350px) rotate(-35deg); opacity: 0; } }
+
+/* PATCH-8: Atmospheric Wind Waves */
+.wind { position: absolute; width: 120px; height: 2px; background: rgba(255, 255, 255, .45); animation: windMove 3s linear infinite; pointer-events: none; z-index: 3; }
+@keyframes windMove { 0% { transform: translateX(-200px); } 100% { transform: translateX(calc(100vw + 200px)); } }
+
+/* PATCH-8: Premium Sunrise/Sunset Glow */
+.sunrise { animation: sunriseGlow 4s infinite alternate !important; }
+@keyframes sunriseGlow { from { box-shadow: 0 0 30px #FFD54F; background: #FFD54F; } to { box-shadow: 0 0 120px orange; background: #FF9100; } }
+
+/* ==========================================================================
+   9. RESPONSIVENESS
+   ========================================================================== */
+@media (max-width: 1024px) { .weather-dashboard { grid-template-columns: 1fr; } }
+@media (max-width: 768px) { body { padding: 10px; } .app-container { padding: 15px; border-radius: 20px; } .grid-2x1 { grid-template-columns: 1fr; } .metrics-grid { grid-template-columns: repeat(2, 1fr); } }

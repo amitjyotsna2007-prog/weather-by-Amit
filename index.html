@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyCast - Premium Visual Weather Ecosystem</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+    <canvas id="fxCanvas"></canvas>
+
+    <div id="weather-scene">
+        <div id="sky-layer">
+            <div id="sun"></div>
+            <div id="moon"></div>
+            <div id="stars"></div>
+            
+            <div id="clouds"></div>
+        </div>
+
+        <div id="rainbow"></div>
+
+        <div id="fog-layer"></div>
+        
+        <div id="landscape">
+            <div class="hill hill1"></div>
+            <div class="hill hill2"></div>
+            <div id="tree1" class="tree"></div>
+            <div id="tree2" class="tree"></div>
+            <div id="tree3" class="tree"></div>
+            
+            <div id="traveler">
+                <div class="umbrella"></div>
+                <div class="head"></div>
+                <div class="body"></div>
+                <div class="leg left"></div>
+                <div class="leg right"></div>
+            </div>
+
+            <div id="grass"></div>
+
+            <div id="water">
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <header class="search-header">
+            <button id="location-btn" class="icon-btn" title="Detect Location">
+                <i class="fa-solid fa-location-crosshairs"></i>
+            </button>
+            <div class="search-bar-container">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="search-input" placeholder="Search city...">
+            </div>
+            <button id="theme-toggle" class="icon-btn" title="Toggle Dark Mode">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </header>
+
+        <main class="weather-dashboard">
+            
+            <section class="main-weather card">
+                <div class="location-date">
+                    <h1 id="city-name">Delhi, IN</h1>
+                    <p id="current-date">Today, 12:00 PM</p>
+                </div>
+                <div class="weather-display">
+                    <div class="weather-status">
+                        <div id="weather-icon-container">
+                            <img id="weather-icon" src="https://openweathermap.org/img/wn/01d@2x.png" alt="Weather Condition">
+                        </div>
+                        <span id="weather-desc">Clear Sky</span>
+                    </div>
+                    <div class="temp-container">
+                        <span id="current-temp">28</span><span class="unit">°C</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="metrics-grid">
+                <div class="metric-card card">
+                    <i class="fa-solid fa-droplet"></i>
+                    <div class="metric-info">
+                        <p>Humidity</p>
+                        <h3 id="humidity-val">65%</h3>
+                    </div>
+                </div>
+                <div class="metric-card card">
+                    <i class="fa-solid fa-wind"></i>
+                    <div class="metric-info">
+                        <p>Wind Speed</p>
+                        <h3 id="wind-val">14 km/h</h3>
+                    </div>
+                </div>
+                <div class="metric-card card">
+                    <i class="fa-solid fa-eye"></i>
+                    <div class="metric-info">
+                        <p>Visibility</p>
+                        <h3 id="visibility-val">8 km</h3>
+                    </div>
+                </div>
+                <div class="metric-card card">
+                    <i class="fa-solid fa-cloud-showers-heavy"></i>
+                    <div class="metric-info">
+                        <p>Rain Chance</p>
+                        <h3 id="rain-chance-val">10%</h3>
+                    </div>
+                </div>
+            </section>
+
+            <section class="hourly-forecast card">
+                <h2>24-Hour Forecast</h2>
+                <div class="hourly-scroll-container" id="hourly-container"></div>
+            </section>
+
+            <section class="daily-forecast card">
+                <h2>7-Day Forecast</h2>
+                <div class="daily-list" id="daily-container"></div>
+            </section>
+
+            <section class="advanced-metrics grid-2x1">
+                <div class="adv-card card">
+                    <h3>Air Quality Index</h3>
+                    <div class="aqi-display">
+                        <h2 id="aqi-val">60</h2>
+                        <span class="badge status-good">Good</span>
+                    </div>
+                </div>
+                <div class="adv-card card sun-moon-card">
+                    <h3>Sun & Moon</h3>
+                    <div class="sun-times">
+                        <p><i class="fa-solid fa-sun-rising"></i> Sunrise: <span id="sunrise-time">05:45 AM</span></p>
+                        <p><i class="fa-solid fa-sun-setting"></i> Sunset: <span id="sunset-time">07:15 PM</span></p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
