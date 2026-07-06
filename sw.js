@@ -1,4 +1,4 @@
-const CACHE_NAME = 'skycast-cache-v1';
+const CACHE_NAME = 'skycast-cache-v2'; // Step 1: Cache version update kiya
 const ASSETS = [
   '/',
   '/index.html',
@@ -10,6 +10,21 @@ const ASSETS = [
 self.addEventListener('install', (e) => {
   e.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
+  );
+});
+
+// Step 2: Activate event add kiya purani cache delete karne ke liye
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((keys) =>
+      Promise.all(
+        keys.map((key) => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
+        })
+      )
+    )
   );
 });
 
